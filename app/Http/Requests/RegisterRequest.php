@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Hash;
 
 class RegisterRequest extends FormRequest
 {
@@ -26,5 +27,12 @@ class RegisterRequest extends FormRequest
             'email' => 'required|string|email|unique:users,email',
             'password' => 'required|string|confirmed',
         ];
+    }
+
+    public function getData()
+    {
+        $data = $this->validated();
+        $data['password'] = Hash::make($data['password']);
+        return $data;
     }
 }
